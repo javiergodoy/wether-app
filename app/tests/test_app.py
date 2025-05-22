@@ -57,7 +57,7 @@ def test_get_temperature_by_zip_request_exception(mock_fetch):
     result = get_temperature_by_zip("28001,ES", "fake_api_key")
     
     # Verify the result
-    assert "An error occurred" in result[0]
+    assert "An error occurred: Test error" in result[0]
 
 @patch('app.fetch_weather_data')
 def test_get_temperature_by_zip_key_error(mock_fetch):
@@ -68,7 +68,7 @@ def test_get_temperature_by_zip_key_error(mock_fetch):
     result = get_temperature_by_zip("28001,ES", "fake_api_key")
     
     # Verify the result
-    assert "Invalid response" in result[0]
+    assert "Invalid response from the API" in result[0]
 
 @patch('app.fetch_weather_data')
 def test_get_temperature_by_zip_connection_error(mock_fetch):
@@ -79,4 +79,4 @@ def test_get_temperature_by_zip_connection_error(mock_fetch):
     result = get_temperature_by_zip("28001,ES", "fake_api_key")
     
     # Verify the result
-    assert "Connection error" in result[0]
+    assert "Connection error. Please check your internet connection." in result[0]

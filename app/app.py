@@ -35,21 +35,19 @@ def get_temperature_by_zip(zip_code: str, api_key: str) -> tuple[str, str]:
         api_key (str): Your OpenWeatherMap API key.
 
     Returns:
-        str: The temperature in Celsius or an error message.
+        tuple[str, str]: A message about the temperature or an error, and the city name (if available).
     """
     try:
         data = fetch_weather_data(zip_code, api_key)
         temperature = round(data["main"]["temp"])  # Round the temperature
         city = data["name"]
         return f"The temperature for zip code {zip_code} is {temperature}°C.", city
-    except requests.exceptions.RequestException as e:
-        return f"An error occurred: {e}"
-    except requests.exceptions.HTTPError as e:
-        return f"HTTP error occurred: {e}"
     except requests.exceptions.ConnectionError:
-        return "Connection error. Please check your internet connection."
+        return "Connection error. Please check your internet connection.", ""
+    except requests.exceptions.RequestException as e:
+        return f"An error occurred: {e}", ""
     except KeyError:
-        return "Invalid response from the API. Please check the zip code and try again."
+        return "Invalid response from the API. Please check the zip code and try again.", ""
 
 def main():
     zip_code = input("Please enter a zip code in Spain: ")
